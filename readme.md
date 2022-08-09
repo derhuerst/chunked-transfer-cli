@@ -19,5 +19,39 @@ cargo install chunked_transfer_cli
 ## Usage
 
 ```txt
-todo
+chunked_transfer_cli 0.1.0
+Command-line tool to encode into or decode from HTTP chunked transfer coding (RFC 7230).
+
+USAGE:
+    chunked_transfer_cli [SUBCOMMAND]
+
+OPTIONS:
+    -h, --help       Print help information
+    -V, --version    Print version information
+
+SUBCOMMANDS:
+    decode    decodes chunked data
+    encode    encodes data as chunked
+    help      Print this message or the help of the given subcommand(s)
+```
+
+```txt
+decodes chunked data
+
+USAGE:
+    chunked_transfer_cli decode
+
+OPTIONS:
+    -h, --help    Print help information
+```
+
+```txt
+encodes data as chunked
+
+USAGE:
+    chunked_transfer_cli encode [OPTIONS]
+
+OPTIONS:
+        --chunk-size <CHUNK_SIZE>    number of bytes per chunk [default: 1024]
+    -h, --help                       Print help information
 ```
