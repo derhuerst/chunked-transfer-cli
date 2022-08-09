@@ -15,6 +15,8 @@ I'm a Rust beginner, so the code might be unelegant. 🙈
 cargo install chunked_transfer_cli
 ```
 
+You can also download a binary from the [releases page](https://github.com/derhuerst/chunked-transfer-cli/releases).
+
 
 ## Usage
 

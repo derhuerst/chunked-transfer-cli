@@ -1,0 +1,94 @@
+name: run tests, build & publish binaries
+
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - ci
+
+jobs:
+  test:
+    name: run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: set up Rust nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          default: true
+      - uses: Swatinem/rust-cache@v2
+      - name: test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+  binaries:
+    name: build ${{ matrix.target }} binary
+    needs: [test]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # todo
+        include:
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+          - os: ubuntu-latest
+            target: x86_64-pc-windows-gnu
+          # - os: ubuntu-latest
+          #   target: armv7-unknown-linux-musleabihf
+          # - os: ubuntu-latest
+          #   target: armv7-linux-androideabi
+          # - os: ubuntu-latest
+          #   target: aarch64-linux-android
+          # - os: ubuntu-latest
+          #   target: aarch64-unknown-linux-gnu
+          # - os: macos-latest
+          #   target: aarch64-apple-ios
+    steps:
+      - uses: actions/checkout@v1
+      - name: set up Rust nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          default: true
+      - uses: Swatinem/rust-cache@v2
+      - name: build ${{ matrix.target }}
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --all-features --target ${{ matrix.target }}
+      - run: tree target
+      - name: store built binary as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bin-${{ matrix.target }}
+          path: target/release/chunked_transfer_cli
+  release:
+    name: create GitHub Release, upload binaries
+    needs: binaries
+    runs-on: ubuntu-latest
+    steps:
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: chunked-transfer-cli ${{ github.ref }}
+      - name: store built binary as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bin-${{ matrix.target }}
+          path: target/release/chunked_transfer_cli
+      # todo
+      # - name: upload binaries to release
+      #   uses: svenstaro/upload-release-action@v1-release
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: target/tar/navi.${{ steps.build.outputs.EXTENSION }}
+      #     tag: ${{ github.ref }}
+      #     asset_name: navi-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target }}.${{ steps.build.outputs.EXTENSION }}
