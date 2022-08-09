@@ -1,0 +1,16 @@
+[package]
+name = "chunked_transfer_cli"
+version = "0.1.0"
+edition = "2021"
+authors = ["Jannis R <mail@jannisr.de>"]
+repository = "https://github.com/derhuerst/chunked-transfer-cli.git"
+homepage = "https://github.com/derhuerst/chunked-transfer-cli"
+license = "ISC"
+readme = "readme.md"
+description = "Command-line tool to encode into or decode from HTTP chunked transfer coding (RFC 7230)."
+keywords = ["http", "rfc-7230", "transfer-encoding", "chunked"]
+exclude = [
+	".github",
+]
+
+[dependencies]
