@@ -14,5 +14,6 @@ exclude = [
 ]
 
 [dependencies]
+assert_cmd = "2.0.4"
 chunked_transfer = "1.4.0"
 clap = { version = "3.2.16", features = ["derive"] }
