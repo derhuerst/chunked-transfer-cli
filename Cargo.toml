@@ -12,6 +12,7 @@ keywords = ["http", "rfc-7230", "transfer-encoding", "chunked"]
 exclude = [
 	".github",
 ]
+rust-version = "1.65"
 
 [dependencies]
 assert_cmd = "2.0.4"

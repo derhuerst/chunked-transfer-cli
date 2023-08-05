@@ -1,5 +1,3 @@
-#![feature(io_read_to_string)]
-
 use clap::{Parser, Subcommand};
 use chunked_transfer::{Decoder, Encoder};
 use std::io::{Result, stdin, stdout, copy};
