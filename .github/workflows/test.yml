@@ -1,0 +1,27 @@
+name: run tests
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust-toolchain: ['stable', 'beta']
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up Rust ${{ matrix.rust-toolchain }}
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust-toolchain }}
+      - name: configure Cargo/rustc caching
+        uses: Swatinem/rust-cache@v2
+
+      - name: cargo test
+        run: cargo test
+      - name: cargo build
+        run: cargo build --all-features
