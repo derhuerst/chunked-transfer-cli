@@ -1,6 +1,6 @@
 [package]
 name = "chunked_transfer_cli"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Jannis R <mail@jannisr.de>"]
 repository = "https://github.com/derhuerst/chunked-transfer-cli.git"
